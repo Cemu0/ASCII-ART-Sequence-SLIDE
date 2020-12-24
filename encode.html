@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<body>
+    C++ art work encoder by Cemu0<br />
+    This code use for translate nomal ASCII ART in to c++ code by runlength encode<br />
+    more art words from https://ascii.co.uk/art <br />
+    more information here https://github.com/Cemu0/ASCII-ART-Sequence-SLIDE <br />
+    Created at: 16/12/2020<br />
+
+    <h1>The run length encoder</h1>
+    <h4>algorithim source: https://stackoverflow.com/questions/60297299/run-length-decompression-using-c </h4>
+
+    <textarea id="inputf" name="w3review" rows="10" cols="100">enter script here</textarea>
+    <button onclick="changeContent()">Encode!</button>
+    <div id="wihi"></div>
+    <textarea id="result" name="w3review" rows="10" cols="100">result here</textarea>
+    <script>
+        function encode(inputstring)
+        {
+        outputstring = "";
+        for (i = 0; i < inputstring.length; i++) {
+        count = 1;
+        while (inputstring[i] == inputstring[i + 1]) {
+        count++;
+        i++;
+        }
+        if (count <= 1) {
+        outputstring += inputstring[i];
+        }
+        else {
+        outputstring += count.toString();
+        outputstring += inputstring[i];
+        }
+        }
+        return outputstring;
+        }
+        function counting(inp)
+        {
+        h=1;
+        w=1;
+        mw = 1;
+        for(i = 0;i<inp.length;i++)
+        {
+        mw++;
+        if(inp[i]=='\n'){
+        h++;
+        mw=0;
+        }
+        if(w<mw)
+        w=mw;
+        }
+        document.getElementById('wihi').innerHTML = ""+w + "," + h;
+        return ""+w + "," + h;
+        }
+        function changeContent()
+        {
+        data = document.getElementById('inputf').value;
+        outcount = counting(data);
+        data = encode(data);
+        outp = "\"";
+        for (ch in data)
+        {
+        add = ""+data[ch];
+        if(add == "\n")
+        add = "\\n\"\n\"";
+        if(add == "\\")
+        add = "\\\\";
+        if(add == "\"")
+        add = "\\\"";
+        outp+=add;
+        }
+        outp+="\"";
+        code = "const IMG YOURIMG = {"+ outcount + ",\n" +  outp + "\n};"
+        document.getElementById('result').value = code;
+        }
+    </script>
+</body>
+</html>
